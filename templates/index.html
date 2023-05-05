@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Todo App</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: plum;
+		}
+
+		h1 {
+			text-align: center;
+			margin-top: 50px;
+			font-size: 60px;
+		}
+
+		form {
+			margin-top: 50px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		label {
+			margin-top: 18px;
+			margin-bottom: 36px;
+			font-size: 18px;
+		}
+
+		input[type="text"] {
+			width: 50%;
+			padding: 10px;
+			margin-bottom: 20px;
+			border: none;
+			border-bottom: 3px solid black;
+			font-size: 16px;
+			outline: none;
+		}
+
+		button {
+			border: none !important;
+			cursor: pointer;
+			border-radius: 5px;
+			background-color: cyan;
+			height: 39px;
+			width: 90px;
+		}
+
+		ul {
+			list-style-type: none;
+			padding: 0;
+			margin-top: 50px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		li {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			width: 50%;
+			padding: 10px;
+			background-color: rgb(248, 190, 42);
+			border: 3px solid black;
+			margin-bottom: 26px;
+		}
+
+		li span {
+			margin-right: 10px;
+		}
+
+		li button {
+			padding: 5px 10px;
+			outline: none;
+		}
+
+	</style>
+</head>
+<body>
+	<h1>Todo App</h1>
+	<form>
+		<label for="todo-item">Add a new item:</label>
+			<input type="text" id="todo-item" name="todo-item">
+			<button type="submit">Add</button>
+	</form>
+	<ul>
+		<li>
+			<span>Example Todo Item</span>
+			<button>Done</button>
+		</li>
+		<li>
+			<span>Another Example Todo Item</span>
+			<button>Done</button>
+		</li>
+	</ul>
+</body>
+</html>

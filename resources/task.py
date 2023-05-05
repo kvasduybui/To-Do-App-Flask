@@ -1,5 +1,5 @@
 import uuid
-from flask import request, jsonify
+from flask import render_template, request, jsonify
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
@@ -15,6 +15,7 @@ class TaskList(MethodView):
     @blp.response(200, TaskSchema(many=True))
     def get(self):
         return TaskModel.query.all()
+        #return render_template("index.html")
 
     @blp.arguments(TaskSchema)
     @blp.response(201, TaskSchema)

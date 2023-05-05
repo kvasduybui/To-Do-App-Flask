@@ -10,3 +10,4 @@ passlib
 flask-migrate
 gunicorn
 db
+psycopg2
