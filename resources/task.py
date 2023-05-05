@@ -15,7 +15,6 @@ class TaskList(MethodView):
     @blp.response(200, TaskSchema(many=True))
     def get(self):
         return TaskModel.query.all()
-        #return render_template("index.html")
 
     @blp.arguments(TaskSchema)
     @blp.response(201, TaskSchema)
