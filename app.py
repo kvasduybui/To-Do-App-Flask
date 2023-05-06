@@ -1,16 +1,18 @@
 from flask import Flask
 from flask_smorest import Api
 from flask_migrate import Migrate
-#from dotenv import load_dotenv
+from dotenv import load_dotenv
 
 from db import db
 import os
+
+from models.task import TaskModel
 
 from resources.task import blp as TaskBlueprint
 
 def create_app(db_url=None):
     app = Flask(__name__)
-    #load_dotenv()
+    load_dotenv()
 
     app.config["PROPAGATE_EXCEPTIONS"] = True
     app.config["API_TITLE"] = "Tasks REST API"
@@ -24,6 +26,9 @@ def create_app(db_url=None):
     db.init_app(app)
     migrate = Migrate(app, db)
     api = Api(app)
+
+    with app.app_context():
+        db.create_all()
 
     api.register_blueprint(TaskBlueprint)
     

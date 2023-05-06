@@ -1,12 +1,11 @@
-import uuid
-from flask import render_template, request, jsonify
+from flask import jsonify
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
-from sqlalchemy.exc import SQLAlchemyError, IntegrityError
+from sqlalchemy.exc import SQLAlchemyError
 
 from db import db
 from models import TaskModel
-from schemas import TaskSchema, TaskUpdateSchema
+from schemas import TaskSchema
 
 blp = Blueprint("tasks", __name__, description="Operations on tasks")
 
@@ -46,19 +45,3 @@ class Task(MethodView):
         db.session.delete(task)
         db.session.commit()
         return jsonify({"message": "Task deleted successfully."})
-
-    @blp.arguments(TaskUpdateSchema)
-    @blp.response(200, TaskSchema)
-    def put(self, task_data, task_id):
-        task = TaskModel.query.get_or_404(task_id)
-
-        task.name = task_data.get("name", task.name)
-        task.status = task_data.get("status", task.status)
-
-        try:
-            db.session.commit()
-        except SQLAlchemyError:
-            db.session.rollback()
-            abort(500, message="An error occurred updating the task.")
-
-        return task
