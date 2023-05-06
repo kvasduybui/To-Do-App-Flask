@@ -42,7 +42,7 @@
 			cursor: pointer;
 			border-radius: 5px;
 			background-color: cyan;
-			height: 39px;
+			height: 26px;
 			width: 90px;
 		}
 
@@ -67,7 +67,8 @@
 		}
 
 		li span {
-			margin-right: 10px;
+			margin-right: 18px;
+			font-size: 18px;
 		}
 
 		li button {
@@ -75,24 +76,30 @@
 			outline: none;
 		}
 
+		a {
+			color: black;
+			text-decoration: none;
+		}
+
 	</style>
 </head>
 <body>
 	<h1>To Do App</h1>
-	<form>
+
+	<form action="/add" method="post">
 		<label for="todo-item">Add a new item:</label>
-			<input type="text" id="todo-item" name="todo-item">
+			<input type="text" id="todo_item" name="todo_item" placeholder="Enter Todo...">
 			<button type="submit">Add</button>
 	</form>
+
 	<ul>
-		<li>
-			<span>Example Todo Item</span>
-			<button>Done</button>
-		</li>
-		<li>
-			<span>Another Example Todo Item</span>
-			<button>Done</button>
-		</li>
+	{% for todo in toDoList %}
+			<li> 
+				<span>{{ todo.name }}</span>
+				<button><a href="/delete/{{ todo.id }}">Complete</a></button>
+			</li>
+    {% endfor %}
 	</ul>
+
 </body>
 </html>

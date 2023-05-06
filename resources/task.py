@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, render_template, jsonify, redirect, request, url_for
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from sqlalchemy.exc import SQLAlchemyError
@@ -9,18 +9,17 @@ from schemas import TaskSchema
 
 blp = Blueprint("tasks", __name__, description="Operations on tasks")
 
-@blp.route("/")
+@blp.route("/task")
 class TaskList(MethodView):
-    @blp.response(200, TaskSchema(many=True))
+    @blp.response(200, TaskSchema)
     def get(self):
+        
         return TaskModel.query.all()
 
     @blp.arguments(TaskSchema)
     @blp.response(201, TaskSchema)
     def post(self, task_data):
         task = TaskModel.query.filter_by(name=task_data["name"]).first()
-        if task:
-            abort(400, message="A task with that name already exists.")
 
         task = TaskModel(**task_data)
         try:
@@ -32,7 +31,7 @@ class TaskList(MethodView):
 
         return task
 
-@blp.route("/<int:task_id>")
+@blp.route("/task/<int:task_id>")
 class Task(MethodView):
     @blp.response(200, TaskSchema)
     def get(self, task_id):
@@ -45,3 +44,26 @@ class Task(MethodView):
         db.session.delete(task)
         db.session.commit()
         return jsonify({"message": "Task deleted successfully."})
+
+@blp.route("/")
+def home():
+        toDoList = TaskModel.query.all()
+        return render_template("index.html", toDoList=toDoList)
+
+@blp.arguments(TaskSchema)
+@blp.route("/add", methods=["POST"])
+def add(): 
+    name = request.form.get("todo_item")
+    task = TaskModel(name=name, status="incomplete")
+    db.session.add(task)
+    db.session.commit()
+    
+    return redirect(url_for("tasks.home"))
+
+@blp.route("/delete/<int:task_id>")
+def delete(task_id):
+    task = TaskModel.query.get_or_404(task_id)
+    db.session.delete(task)
+    db.session.commit()
+    
+    return redirect(url_for("tasks.home"))
