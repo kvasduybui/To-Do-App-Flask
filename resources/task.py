@@ -13,8 +13,8 @@ blp = Blueprint("tasks", __name__, description="Operations on tasks")
 class TaskList(MethodView):
     @blp.response(200, TaskSchema)
     def get(self):
-        
-        return TaskModel.query.all()
+        toDoList = TaskModel.query.all()
+        return toDoList
 
     @blp.arguments(TaskSchema)
     @blp.response(201, TaskSchema)
@@ -47,8 +47,8 @@ class Task(MethodView):
 
 @blp.route("/")
 def home():
-        toDoList = TaskModel.query.all()
-        return render_template("index.html", toDoList=toDoList)
+    toDoList = TaskModel.query.all()
+    return render_template("index.html", toDoList=toDoList)
 
 @blp.arguments(TaskSchema)
 @blp.route("/add", methods=["POST"])
