@@ -9,7 +9,7 @@ from models.task import TaskModel
 from resources.task import blp as TaskBlueprint
 
 def create_app(db_url=None):
-    app = Flask(__name__)
+    app = Flask(__name__, template_folder='templates', static_folder='static')
     load_dotenv()
 
     app.config["PROPAGATE_EXCEPTIONS"] = True
