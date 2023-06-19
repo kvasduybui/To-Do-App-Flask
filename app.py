@@ -2,12 +2,10 @@ from flask import Flask
 from flask_smorest import Api
 from flask_migrate import Migrate
 from dotenv import load_dotenv
-
-from db import db
 import os
 
+from db import db
 from models.task import TaskModel
-
 from resources.task import blp as TaskBlueprint
 
 def create_app(db_url=None):
